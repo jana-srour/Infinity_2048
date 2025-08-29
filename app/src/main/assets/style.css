@@ -1,0 +1,782 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+:root {
+  --primary-color: #007acc;
+  --primary-color-hover: #005f99;
+
+  /* Classic Light Theme */
+  --bg-color: #f0f4f8;
+  --game-bg: #3a3a3a;
+  --text-color: #333;
+  --tile-shadow: 0 5px 10px rgba(0,0,0,0.25), inset 0 -4px 7px rgba(255,255,255,0.5);
+
+  /* Tile Colors */
+  --tile-0-bg: transparent;
+  --tile-2-bg: #c6e2ff; --tile-2-color: #003366;
+  --tile-4-bg: #92caff; --tile-4-color: #003366;
+  --tile-8-bg: #ff7e5f; --tile-8-color: white;
+  --tile-16-bg: #ff5c33; --tile-16-color: white;
+  --tile-32-bg: #e04e39; --tile-32-color: white;
+  --tile-64-bg: #bb3e2e; --tile-64-color: white;
+  --tile-128-bg: #fbd14b; --tile-128-color: #333;
+  --tile-256-bg: #f7ca4d; --tile-256-color: #333;
+  --tile-512-bg: #f4c146; --tile-512-color: #333;
+  --tile-1024-bg: #f0b43f; --tile-1024-color: #333;
+  --tile-2048-bg: #eca72c; --tile-2048-color: #333;
+}
+
+/* Classic Light Theme */
+body.theme-classic {
+  --bg-color: #f0f4f8;
+  --game-bg: 
+		linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)),
+		linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  --text-color: #333;
+  --tile-shadow: 0 5px 10px rgba(0,0,0,0.25), inset 0 -4px 7px rgba(255,255,255,0.5);
+
+  --tile-0-bg: transparent;
+  --tile-2-bg: #c6e2ff; --tile-2-color: #003366;
+  --tile-4-bg: #92caff; --tile-4-color: #003366;
+  --tile-8-bg: #ff7e5f; --tile-8-color: white;
+  --tile-16-bg: #ff5c33; --tile-16-color: white;
+  --tile-32-bg: #e04e39; --tile-32-color: white;
+  --tile-64-bg: #bb3e2e; --tile-64-color: white;
+  --tile-128-bg: #fbd14b; --tile-128-color: #333;
+  --tile-256-bg: #f7ca4d; --tile-256-color: #333;
+  --tile-512-bg: #f4c146; --tile-512-color: #333;
+  --tile-1024-bg: #f0b43f; --tile-1024-color: #333;
+  --tile-2048-bg: #eca72c; --tile-2048-color: #333;
+}
+
+/* Ocean Theme */
+body.theme-ocean {
+  --bg-color: #001f3f;
+  --game-bg: #004080;
+  --text-color: #a0e9ff;
+  --tile-shadow: 0 5px 10px rgba(0,50,100,0.7), inset 0 -4px 7px rgba(255,255,255,0.2);
+
+  --tile-2-bg: #66ccff; --tile-2-color: #00334d;
+  --tile-4-bg: #3399ff; --tile-4-color: #001a26;
+  --tile-8-bg: #007acc; --tile-8-color: #ccf2ff;
+  --tile-16-bg: #005f99; --tile-16-color: #ccf2ff;
+  --tile-32-bg: #004c7f; --tile-32-color: #cceeff;
+  --tile-64-bg: #00334d; --tile-64-color: #cceeff;
+  --tile-128-bg: #0099cc; --tile-128-color: #001a26;
+  --tile-256-bg: #00b3e6; --tile-256-color: #001a26;
+  --tile-512-bg: #00ccff; --tile-512-color: #001a26;
+  --tile-1024-bg: #00e6ff; --tile-1024-color: #001a26;
+  --tile-2048-bg: #00ffff; --tile-2048-color: #001a26;
+}
+
+/* Sunset Theme */
+body.theme-sunset {
+  --bg-color: #ffeedf;
+  --game-bg: #ff704d;
+  --text-color: #4b1e00;
+  --tile-shadow: 0 5px 10px rgba(255, 100, 50, 0.6), inset 0 -4px 7px rgba(255, 255, 255, 0.4);
+
+  --tile-2-bg: #ffe0cc; --tile-2-color: #663300;
+  --tile-4-bg: #ffcc99; --tile-4-color: #663300;
+  --tile-8-bg: #ff9933; --tile-8-color: white;
+  --tile-16-bg: #ff6600; --tile-16-color: white;
+  --tile-32-bg: #e65c00; --tile-32-color: white;
+  --tile-64-bg: #b34700; --tile-64-color: white;
+  --tile-128-bg: #ffb84d; --tile-128-color: #4b1e00;
+  --tile-256-bg: #ffad33; --tile-256-color: #4b1e00;
+  --tile-512-bg: #ff9900; --tile-512-color: #4b1e00;
+  --tile-1024-bg: #e68a00; --tile-1024-color: #4b1e00;
+  --tile-2048-bg: #cc7a00; --tile-2048-color: #4b1e00;
+}
+
+/* Dark Mode for Classic Theme */
+body.theme-classic.dark-mode {
+  --bg-color: #121212;
+  --game-bg: #222222;
+  --text-color: #eeeeee;
+  --tile-shadow: 0 5px 10px rgba(0,0,0,0.7), inset 0 -4px 7px rgba(255,255,255,0.1);
+
+  --tile-0-bg: transparent;
+  --tile-2-bg: #375a7f; --tile-2-color: #cce6ff;
+  --tile-4-bg: #2c4670; --tile-4-color: #cce6ff;
+  --tile-8-bg: #ff7e5f; --tile-8-color: white;
+  --tile-16-bg: #ff5c33; --tile-16-color: white;
+  --tile-32-bg: #e04e39; --tile-32-color: white;
+  --tile-64-bg: #bb3e2e; --tile-64-color: white;
+  --tile-128-bg: #fbd14b; --tile-128-color: #222;
+  --tile-256-bg: #f7ca4d; --tile-256-color: #222;
+  --tile-512-bg: #f4c146; --tile-512-color: #222;
+  --tile-1024-bg: #f0b43f; --tile-1024-color: #222;
+  --tile-2048-bg: #eca72c; --tile-2048-color: #222;
+}
+
+/* Dark Mode for Ocean Theme */
+body.theme-ocean.dark-mode {
+  --bg-color: #00111f;
+  --game-bg: #002b4a;
+  --text-color: #a0dfff;
+  --tile-shadow: 0 5px 10px rgba(0,30,70,0.9), inset 0 -4px 7px rgba(255,255,255,0.05);
+
+  --tile-0-bg: transparent;
+  --tile-2-bg: #004a80; --tile-2-color: #b3e0ff;
+  --tile-4-bg: #003366; --tile-4-color: #b3e0ff;
+  --tile-8-bg: #007acc; --tile-8-color: #ccf2ff;
+  --tile-16-bg: #005f99; --tile-16-color: #ccf2ff;
+  --tile-32-bg: #004c7f; --tile-32-color: #cceeff;
+  --tile-64-bg: #00334d; --tile-64-color: #cceeff;
+  --tile-128-bg: #0099cc; --tile-128-color: #001a26;
+  --tile-256-bg: #00b3e6; --tile-256-color: #001a26;
+  --tile-512-bg: #00ccff; --tile-512-color: #001a26;
+  --tile-1024-bg: #00e6ff; --tile-1024-color: #001a26;
+  --tile-2048-bg: #00ffff; --tile-2048-color: #001a26;
+}
+
+/* Dark Mode for Sunset Theme */
+body.theme-sunset.dark-mode {
+  --bg-color: #2a130e;
+  --game-bg: #5a1e0e;
+  --text-color: #f8c0b0;
+  --tile-shadow: 0 5px 10px rgba(150, 50, 20, 0.8), inset 0 -4px 7px rgba(255, 200, 190, 0.15);
+
+  --tile-0-bg: transparent;
+  --tile-2-bg: #bb6a4b; --tile-2-color: #ffe0cc;
+  --tile-4-bg: #a05233; --tile-4-color: #ffe0cc;
+  --tile-8-bg: #ff9933; --tile-8-color: white;
+  --tile-16-bg: #ff6600; --tile-16-color: white;
+  --tile-32-bg: #e65c00; --tile-32-color: white;
+  --tile-64-bg: #b34700; --tile-64-color: white;
+  --tile-128-bg: #ffb84d; --tile-128-color: #4b1e00;
+  --tile-256-bg: #ffad33; --tile-256-color: #4b1e00;
+  --tile-512-bg: #ff9900; --tile-512-color: #4b1e00;
+  --tile-1024-bg: #e68a00; --tile-1024-color: #4b1e00;
+  --tile-2048-bg: #cc7a00; --tile-2048-color: #4b1e00;
+}
+
+/* General Body Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-color);
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  transition: background 0.5s ease, color 0.5s ease;
+  user-select: none;
+  color: var(--text-color);
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Tile Styling */
+.tile {
+  box-shadow: var(--tile-shadow);
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Tile Colors per value */
+.tile-0 {
+  background-color: var(--tile-0-bg);
+  color: transparent;
+}
+
+.tile-2 {
+  background-color: var(--tile-2-bg);
+  color: var(--tile-2-color);
+}
+
+.tile-4 {
+  background-color: var(--tile-4-bg);
+  color: var(--tile-4-color);
+}
+
+.tile-8 {
+  background-color: var(--tile-8-bg);
+  color: var(--tile-8-color);
+}
+
+.tile-16 {
+  background-color: var(--tile-16-bg);
+  color: var(--tile-16-color);
+}
+
+.tile-32 {
+  background-color: var(--tile-32-bg);
+  color: var(--tile-32-color);
+}
+
+.tile-64 {
+  background-color: var(--tile-64-bg);
+  color: var(--tile-64-color);
+}
+
+.tile-128 {
+  background-color: var(--tile-128-bg);
+  color: var(--tile-128-color);
+}
+
+.tile-256 {
+  background-color: var(--tile-256-bg);
+  color: var(--tile-256-color);
+}
+
+.tile-512 {
+  background-color: var(--tile-512-bg);
+  color: var(--tile-512-color);
+}
+
+.tile-1024 {
+  background-color: var(--tile-1024-bg);
+  color: var(--tile-1024-color);
+}
+
+.tile-2048 {
+  background-color: var(--tile-2048-bg);
+  color: var(--tile-2048-color);
+}
+
+#header {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 60px;
+  user-select: none;
+  gap: 8px;
+}
+
+#controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#game-info,
+#score {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+  user-select: none;
+}
+
+select, button {
+  background: var(--game-bg);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  transition: background 0.3s ease;
+  user-select: none;
+  font-size: 1rem;
+}
+
+select:hover, button:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+#game-container {
+  background: var(--game-bg);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow:
+	0 8px 20px rgba(0, 0, 0, 0.4),
+	inset 0 0 40px rgba(0,0,0,0.5);
+  width: 70vw;
+  max-width: 320px;
+  height: 70vw;
+  max-height: 320px;
+  gap: 3%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 15px;
+  position: relative;
+  touch-action: none;
+  outline: none;
+  user-select: none;
+  transition: background 0.5s ease;
+  color: var(--text-color);
+  margin-bottom: 70px;
+}
+
+.tile {
+  border-radius: 15px;
+  font-weight: 900;
+  font-size: calc(1.5rem + 0.5vw);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--tile-shadow);
+  transition:
+	background-color 0.3s ease,
+	color 0.3s ease,
+	transform 0.3s ease;
+  transform-origin: center;
+  user-select: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tile colors from CSS variables */
+.tile-0 {
+  background: var(--tile-0-bg);
+  color: transparent;
+  box-shadow: none;
+}
+.tile-2 { background: var(--tile-2-bg); color: var(--tile-2-color); }
+.tile-4 { background: var(--tile-4-bg); color: var(--tile-4-color); }
+.tile-8 { background: var(--tile-8-bg); color: var(--tile-8-color); }
+.tile-16 { background: var(--tile-16-bg); color: var(--tile-16-color); }
+.tile-32 { background: var(--tile-32-bg); color: var(--tile-32-color); }
+.tile-64 { background: var(--tile-64-bg); color: var(--tile-64-color); }
+.tile-128 { background: var(--tile-128-bg); color: var(--tile-128-color); font-size: 2rem; }
+.tile-256 { background: var(--tile-256-bg); color: var(--tile-256-color); font-size: 2rem; }
+.tile-512 { background: var(--tile-512-bg); color: var(--tile-512-color); font-size: 2rem; }
+.tile-1024 { background: var(--tile-1024-bg); color: var(--tile-1024-color); font-size: 1.6rem; }
+.tile-2048 { background: var(--tile-2048-bg); color: var(--tile-2048-color); font-size: 1.6rem; }
+
+#message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(240, 244, 248, 0.95);
+  border-radius: 20px;
+  padding: 30px 45px;
+  font-size: 1.6rem;
+  color: #333;
+  display: none;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 0 20px #aaa;
+  z-index: 10;
+  transition: background 0.5s ease, color 0.5s ease;
+  min-width: 260px;
+}
+
+#message button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-weight: 700;
+  border: none;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 8px rgba(0,122,204,0.4);
+  transition: background 0.3s ease;
+  user-select: none;
+}
+#message button:hover {
+  background: var(--primary-color-hover);
+}
+
+/* Dark mode overrides */
+body.dark {
+  --bg-color: #121212;
+  --game-bg: #222;
+  --text-color: #eee;
+  --tile-shadow: 0 5px 10px rgba(255,255,255,0.15), inset 0 -4px 7px rgba(255,255,255,0.2);
+
+  --tile-2-bg: #3a3a3a; --tile-2-color: #eee;
+  --tile-4-bg: #4a4a4a; --tile-4-color: #eee;
+  --tile-8-bg: #ff704d; --tile-8-color: white;
+  --tile-16-bg: #ff5c33; --tile-16-color: white;
+  --tile-32-bg: #e04e39; --tile-32-color: white;
+  --tile-64-bg: #bb3e2e; --tile-64-color: white;
+  --tile-128-bg: #fbd14b; --tile-128-color: #333;
+  --tile-256-bg: #f7ca4d; --tile-256-color: #333;
+  --tile-512-bg: #f4c146; --tile-512-color: #333;
+  --tile-1024-bg: #f0b43f; --tile-1024-color: #333;
+  --tile-2048-bg: #eca72c; --tile-2048-color: #333;
+}
+
+.powerup-btn {
+  background: var(--button-bg, #eee);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 20px;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.powerup-btn small {
+  font-size: 10px;
+  margin-top: 2px;
+  color: #555;
+  line-height: 1;
+}
+
+.powerup-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.powerup-btn.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(60%);
+}
+
+
+.powerup-btn:hover:not(:disabled) {
+  background: var(--button-hover-bg, #ddd);
+}
+
+.powerup-badge {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: #ff3b3b;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Particle container */
+#particles-container {
+  position: absolute;
+  pointer-events: none;
+  top: 0; left: 0; width: 100%; height: 100%;
+  overflow: visible;
+  z-index: 20;
+}
+
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(60,60,60,0.9);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+#toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Settings Modal styles */
+#settings-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 20px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  z-index: 10000;
+  width: 320px;
+  max-width: 90vw;
+  user-select: none;
+}
+
+#settings-content h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+#settings-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+#settings-btn {
+  color: white;
+}
+
+#settings-theme label {
+  font-weight: 600;
+  margin-right: 10px;
+  font-size: 1rem;
+}
+
+#settings-toggles {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+#settings-toggles button {
+  flex: 1; /* equal width buttons */
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid var(--text-color);
+  background: var(--game-bg, #3a3a3a);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: color 0.3s, background 0.3s;
+}
+
+#settings-toggles button:hover {
+  background: var(--button-hover-bg, #e0e0e0);
+}
+
+/* Dark mode overrides */
+body.dark-mode #settings-toggles button {
+  color: #fff;
+  background: #333; /* or var(--game-bg) if you want dynamic */
+  border-color: #fff;
+}
+
+body.theme-classic.dark-mode #settings-toggles button {
+  color: #fff;
+  background: #222;
+  border-color: #fff;
+}
+
+body.theme-classic.dark-mode #settings-toggles button:hover {
+  background: #444;
+}
+
+/* Levels List Items */
+.level-item {
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.level-item.done {
+  background: #4caf50;
+  color: white;
+}
+
+.level-item.current {
+  background: #ff9800;
+  color: white;
+  box-shadow: 0 0 8px 3px #ffb347;
+}
+
+.level-item.locked {
+  background: #999;
+  color: #eee;
+  cursor: not-allowed;
+  filter: grayscale(80%);
+}
+
+.level-item .level-label {
+  flex-grow: 1;
+}
+
+.level-item .level-status {
+  margin-left: 8px;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.hidden-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  z-index: 1000;
+  overflow-y: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#levels-overlay-content {
+  max-width: 600px;
+  margin: 60px auto;
+  background: #222;
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 0 20px #00ccff;
+  text-align: center;
+}
+
+#levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(80px,1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.level-tile {
+  padding: 20px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 0 5px #0ff;
+  transition: all 0.3s ease;
+  background: #111;
+}
+
+.level-tile.done {
+  background: #0a8;
+  box-shadow: 0 0 12px #0a8;
+  color: #cfffcf;
+}
+
+.level-tile.current {
+  background: #0ff;
+  box-shadow: 0 0 20px #0ff;
+  color: #003;
+  font-size: 18px;
+}
+
+.level-tile.locked {
+  background: #444;
+  box-shadow: none;
+  color: #666;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.level-tile.locked::after {
+  content: "🔒";
+  position: absolute;
+  top: 5px; right: 8px;
+  font-size: 14px;
+}
+
+.level-tile:hover:not(.locked) {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #0ff;
+}
+
+#close-levels-btn {
+  margin-top: 15px;
+  padding: 10px 30px;
+  border: none;
+  background: #0ff;
+  color: #003;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#close-levels-btn:hover {
+  background: #09c;
+  color: white;
+}
+
+/* Basic tile pop + glow on merge */
+@keyframes merge-pop {
+  0% {
+	transform: scale(1);
+	box-shadow: 0 0 0 transparent;
+  }
+  50% {
+	transform: scale(1.3);
+	box-shadow: 0 0 15px 6px gold;
+  }
+  100% {
+	transform: scale(1);
+	box-shadow: 0 0 0 transparent;
+  }
+}
+
+.tile.merge-pop {
+  animation: merge-pop 0.5s ease forwards;
+}
+
+/* New tile spawn animation */
+@keyframes spawn-pop {
+  0% {
+	opacity: 0;
+	transform: scale(0);
+  }
+  80% {
+	opacity: 1;
+	transform: scale(1.2);
+  }
+  100% {
+	opacity: 1;
+	transform: scale(1);
+  }
+}
+
+.tile.spawn-pop {
+  animation: spawn-pop 0.4s ease forwards;
+}
+
+#particles-container {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1000;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 1;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  filter: drop-shadow(0 0 3px gold);
+}
+
+#ad-banner {
+  position: fixed;      /* sticky at bottom */
+  bottom: 0;            /* always at bottom */
+  left: 0;
+  width: 100%;          /* full width */
+  max-width: 320px;     /* center on wider screens */
+  height: 50px;         /* standard banner height */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;        /* on top of other elements */
+  background: transparent; /* placeholder */
+}

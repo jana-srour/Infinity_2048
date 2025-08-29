@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2048 with Progression & Themes - Fixed UI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-classic">
+  <div id="header">
+    <div id="controls">
+	  <button id="daily-challenge-btn" aria-pressed="false" aria-label="Toggle Daily Challenge">🔥</button>
+	  <button id="settings-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="settings-modal" aria-label="Open Settings">⚙️</button>
+	</div>
+    <div id="game-info">Level: <span id="level-num">1</span> | Target Tile: <span id="target-tile">32</span></div>
+	<div id="moves-left" style="display:none;">Moves left: <span id="moves-count">0</span></div>
+    <div id="score">Score: 0</div>
+  </div>
+  
+  <div id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" style="display:none;">
+	  <div id="settings-content">
+		<h2 id="settings-title">Settings</h2>
+		<button id="settings-close-btn" aria-label="Close Settings">✖️</button>
+		
+		<section id="settings-theme">
+		  <label for="theme-select">Theme:</label>
+		  <select id="theme-select" aria-label="Select Theme">
+			<option value="classic">Classic</option>
+			<option value="ocean">Ocean</option>
+			<option value="sunset">Sunset</option>
+		  </select>
+		</section>
+
+		<section id="settings-toggles" style="margin-top: 1rem;">
+		  <button id="dark-toggle" aria-pressed="false" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+		  <button id="mute-btn" aria-pressed="false" aria-label="Toggle Sound">🔊 Sound</button>
+		  <button id="restart-level-btn" aria-label="Restart Current Level">🔄 Restart Level</button>
+		</section>
+
+		<section id="levels-list-container" style="margin-top: 1.5rem;">
+		  <h3>Levels</h3>
+		  <div id="levels-list" tabindex="0" aria-label="Levels list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background: var(--game-bg); color: var(--text-color);"></div>
+		</section>
+	  </div>
+	</div>
+
+  <div id="game-container" tabindex="0" aria-label="2048 game board"></div>
+  <div id="powerups" style="display:flex; justify-content:center; gap:12px; margin:16px 0;">
+	  <button id="undo-btn" title="Undo Move (1 use)" aria-label="Undo Move" class="powerup-btn"
+			  onclick="tryUsePowerup('undo', 'undo-btn')">↩️<br><small>Undo</small></button>
+	  <button id="shuffle-btn" title="Shuffle Board (2 uses)" aria-label="Shuffle Board" class="powerup-btn"
+			  onclick="tryUsePowerup('shuffle', 'shuffle-btn')">🔀<br><small>Shuffle</small></button>
+	  <button id="merge-any-btn" title="Merge Any Two Tiles (1 use)" aria-label="Merge Any Two Tiles" class="powerup-btn"
+			  onclick="tryUsePowerup('mergeAny', 'merge-any-btn')">🔗<br><small>Merge</small></button>
+	  <button id="big-tile-btn" title="Add Big Tile (1 use)" aria-label="Add Big Tile" class="powerup-btn"
+			  onclick="tryUsePowerup('bigTile', 'big-tile-btn')">✨<br><small>Big Tile</small></button>
+	  <button id="clear-small-btn" title="Clear Small Tiles (1 use)" aria-label="Clear Small Tiles" class="powerup-btn"
+			  onclick="tryUsePowerup('clearSmall', 'clear-small-btn')">🧹<br><small>Clear</small></button>
+	</div>
+
+  <div id="particles-container"></div>
+  <div id="toast" role="alert" aria-live="assertive"></div>
+
+  <div id="message" role="alert" aria-live="assertive">
+    <div id="message-text"></div>
+    <button id="next-level-btn" style="display:none;">Next Level</button>
+    <button id="restart-btn">Restart</button>
+  </div>
+  <div id="levels-overlay" class="hidden-overlay">
+	  <div id="levels-overlay-content">
+		<h2>Levels</h2>
+		<div id="levels-grid"></div>
+		<button id="close-levels-btn">Close</button>
+	  </div>
+  </div>
+
+  <div id="daily-challenge-confirm" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+	  background: #fff; border: 1px solid #ccc; padding: 20px; z-index: 1000;">
+	  <p>Start Daily Challenge?</p>
+	  <button id="confirm-yes">Yes</button>
+	  <button id="confirm-no">No</button>
+  </div>
+
+
+  <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/03/28/audio_5e592b52e3.mp3?filename=retro-funk-loop-10971.mp3" preload="auto"></audio>
+  <audio id="merge-sound" src="https://freesound.org/data/previews/341/341695_62411-lq.mp3" preload="auto"></audio>
+  <audio id="levelup-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3" preload="auto"></audio>
+  <audio id="gameover-sound" src="https://freesound.org/data/previews/331/331911_3248244-lq.mp3" preload="auto"></audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
