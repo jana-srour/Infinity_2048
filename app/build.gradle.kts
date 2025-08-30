@@ -7,7 +7,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.infinity_2048"
+        applicationId = "com.infinity2048.infinity_2048"
         minSdk = 24
         targetSdk = 35
         versionCode = 2

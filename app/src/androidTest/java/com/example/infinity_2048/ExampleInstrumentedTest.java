@@ -1,4 +1,4 @@
-package com.example.infinity_2048;
+package com.infinity2048.infinity_2048;
 
 import android.content.Context;
 
