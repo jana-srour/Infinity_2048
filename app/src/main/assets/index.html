@@ -45,6 +45,7 @@
 	</div>
 
   <div id="game-container" tabindex="0" aria-label="2048 game board"></div>
+  <div id="particles-container"></div>
   <div id="powerups" style="display:flex; justify-content:center; gap:12px; margin:16px 0;">
 	  <button id="undo-btn" title="Undo Move (1 use)" aria-label="Undo Move" class="powerup-btn"
 			  onclick="tryUsePowerup('undo', 'undo-btn')">↩️<br><small>Undo</small></button>
@@ -58,7 +59,6 @@
 			  onclick="tryUsePowerup('clearSmall', 'clear-small-btn')">🧹<br><small>Clear</small></button>
 	</div>
 
-  <div id="particles-container"></div>
   <div id="toast" role="alert" aria-live="assertive"></div>
 
   <div id="message" role="alert" aria-live="assertive">

@@ -82,10 +82,10 @@ let boardChangedByPowerup = false; // flag for powerup board changes
 // Power-up unlock info
 const powerupUnlocks = [
   { id: 'undo-btn', level: 3, name: 'Undo Move' },
-  { id: 'shuffle-btn', level: 10, name: 'Shuffle Board' },
-  { id: 'merge-any-btn', level: 20, name: 'Merge Any Two Tiles' },
-  { id: 'big-tile-btn', level: 30, name: 'Big Tile' },
-  { id: 'clear-small-btn', level: 45, name: 'Clear Small Tiles' }
+  { id: 'shuffle-btn', level: 5, name: 'Shuffle Board' },
+  { id: 'merge-any-btn', level: 15, name: 'Merge Any Two Tiles' },
+  { id: 'big-tile-btn', level: 25, name: 'Big Tile' },
+  { id: 'clear-small-btn', level: 35, name: 'Clear Small Tiles' }
 ];
 
 function persistLevelState() {
@@ -100,37 +100,70 @@ function persistLevelState() {
 }
 
 // ==== Animation Setup --Fireworks-- ====
-function createFireworks(x, y, color = 'gold') {
+function createFireworkAt(x, y, color = 'gold') {
   const particleCount = 20;
   const container = particlesContainer;
 
   for (let i = 0; i < particleCount; i++) {
-const particle = document.createElement('div');
-particle.classList.add('particle');
-container.appendChild(particle);
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    container.appendChild(particle);
 
-// Random angle and distance
-const angle = Math.random() * 2 * Math.PI;
-const distance = 60 + Math.random() * 40;
+    // Random angle and distance
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 60 + Math.random() * 40;
 
-// Starting position (center of tile)
-particle.style.left = `${x}px`;
-particle.style.top = `${y}px`;
-particle.style.backgroundColor = color;
+    // Starting position (center of tile)
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    particle.style.backgroundColor = color;
 
-// Animate movement with CSS transitions
-requestAnimationFrame(() => {
- particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`;
- particle.style.opacity = '0';
-});
+    // Ensure starting visible & scale=1
+    particle.style.opacity = '1';
+    particle.style.transform = 'translate(0px, 0px) scale(1)';
 
-// Remove particle after animation (600ms)
-setTimeout(() => {
- container.removeChild(particle);
-}, 600);
+    // Animate outward then fade/scale to 0
+    requestAnimationFrame(() => {
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      particle.style.transition = 'transform 600ms ease-out, opacity 600ms ease-out';
+      particle.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
+      particle.style.opacity = '0';
+    });
+
+    // Remove particle after animation
+    setTimeout(() => {
+      if (particle.parentNode === container) container.removeChild(particle);
+    }, 700);
   }
 }
 
+function createFirework(tile) {
+  const firework = document.createElement('div');
+  firework.classList.add('firework');
+
+  for (let i = 0; i < 12; i++) { // number of particles
+    const particle = document.createElement('div');
+
+    // random direction and distance
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 30 + Math.random() * 20; // pixels
+    const x = Math.cos(angle) * distance + 'px';
+    const y = Math.sin(angle) * distance + 'px';
+
+    particle.style.setProperty('--x', x);
+    particle.style.setProperty('--y', y);
+
+    firework.appendChild(particle);
+  }
+
+  tile.appendChild(firework);
+
+  // remove after animation
+  setTimeout(() => firework.remove(), 800);
+}
+
+const createFireworks = createFireworkAt;
 
 // ==== Toast Notification Setup ====
 
@@ -168,27 +201,32 @@ function tryUsePowerup(powerupName, btnId) {
         switch(powerupName) {
             case 'undo':
                 undoMove(); // undoMove handles decrement
+                persistLevelState();
                 break;
             case 'shuffle':
                 powerups.shuffle--;
                 updatePowerupBadges();
                 shuffleBoard();
+                persistLevelState();
                 break;
             case 'mergeAny':
                 powerups.mergeAny--;
                 updatePowerupBadges();
                 mergeAnyActive = true;
                 showToast("Select two tiles with the same value to merge");
+                persistLevelState();
                 break;
             case 'bigTile':
                 powerups.bigTile--;
                 updatePowerupBadges();
                 addBigTile();
+                persistLevelState();
                 break;
             case 'clearSmall':
                 powerups.clearSmall--;
                 updatePowerupBadges();
                 clearSmallTiles();
+                persistLevelState();
                 break;
         }
 
@@ -202,35 +240,43 @@ function tryUsePowerup(powerupName, btnId) {
 }
 
 function onPowerupRewarded(powerupName) {
-    powerups[powerupName] = 1; // restore 1 use
+    // Increment the powerup count instead of just setting to 1
+    powerups[powerupName] = (powerups[powerupName] || 0) + 1;
+
+    // Update the badges to show the new count
     updatePowerupBadges();
+
     showToast(`${powerupName} restored!`);
     rewardAdInProgress = false; // unlock tap again
+
+    // Persist the updated state
+    persistLevelState();
 }
 
 
 
 function updatePowerupBadges() {
-  const powerupData = [
-{ btn: undoBtn, count: powerups.undo },
-{ btn: shuffleBtn, count: powerups.shuffle },
-{ btn: mergeAnyBtn, count: powerups.mergeAny },
-{ btn: bigTileBtn, count: powerups.bigTile },
-{ btn: clearSmallBtn, count: powerups.clearSmall },
-  ];
+    const powerupData = [
+        { btn: undoBtn, count: powerups.undo },
+        { btn: shuffleBtn, count: powerups.shuffle },
+        { btn: mergeAnyBtn, count: powerups.mergeAny },
+        { btn: bigTileBtn, count: powerups.bigTile },
+        { btn: clearSmallBtn, count: powerups.clearSmall },
+    ];
 
-  powerupData.forEach(({ btn, count }) => {
-const oldBadge = btn.querySelector('.powerup-badge');
-if (oldBadge) btn.removeChild(oldBadge);
+    powerupData.forEach(({ btn, count }) => {
+        // Remove any existing badge
+        const oldBadge = btn.querySelector('.powerup-badge');
+        if (oldBadge) btn.removeChild(oldBadge);
 
-// Show badge ONLY if button unlocked AND count > 0
-if (!btn.classList.contains('locked') && count > 0) {
- const badge = document.createElement('span');
- badge.classList.add('powerup-badge');
- badge.textContent = count;
- btn.appendChild(badge);
-}
-  });
+        // Show badge ONLY if button is NOT locked AND count > 0
+        if (!btn.classList.contains('locked') && count > 0) {
+            const badge = document.createElement('span');
+            badge.classList.add('powerup-badge');
+            badge.textContent = count;
+            btn.appendChild(badge);
+        }
+    });
 }
 
 
@@ -243,17 +289,26 @@ function updatePowerupLocks() {
             btn.classList.remove('locked');
             btn.title = name;
 
-            // Only assign initial count if undefined (never assigned)
-            if (powerups[key] === undefined) {
+            // Only assign initial count if undefined or 0 (never properly assigned)
+            if (powerups[key] === undefined || powerups[key] === 0) {
                 switch (id) {
-                    case 'undo-btn': powerups.undo = 1; break;
-                    case 'shuffle-btn': powerups.shuffle = 2; break;
-                    case 'merge-any-btn': powerups.mergeAny = 1; break;
-                    case 'big-tile-btn': powerups.bigTile = 1; break;
-                    case 'clear-small-btn': powerups.clearSmall = 1; break;
+                    case 'undo-btn':
+                        powerups.undo = 1;
+                        break;
+                    case 'shuffle-btn':
+                        powerups.shuffle = 2;
+                        break;
+                    case 'merge-any-btn':
+                        powerups.mergeAny = 1;
+                        break;
+                    case 'big-tile-btn':
+                        powerups.bigTile = 1;
+                        break;
+                    case 'clear-small-btn':
+                        powerups.clearSmall = 1;
+                        break;
                 }
             }
-
         } else {
             btn.classList.add('locked');
             btn.title = `${name} unlocks at level ${level}`;
@@ -272,7 +327,7 @@ function updatePowerupLocks() {
         }
     });
 
-    updatePowerupBadges();
+    updatePowerupBadges(); // Make sure badges are updated after locks
 }
 
 function showMessage(text) {
@@ -301,18 +356,46 @@ function render() {
   container.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
   for (let i = 0; i < board.length; i++) {
-const tile = document.createElement('div');
-tile.classList.add('tile');
-const val = board[i];
-tile.textContent = val > 0 ? val : '';
-tile.dataset.index = i;
+    const tile = document.createElement('div');
+    tile.classList.add('tile');
+    const val = board[i];
+    tile.textContent = val > 0 ? val : '';
+    tile.dataset.index = i;
 
-tile.classList.add(`tile-${val}`);
-if (val === 0) tile.classList.add('tile-empty');
+    tile.classList.add(`tile-${val}`);
+    if (val === 0) tile.classList.add('tile-empty');
 
-tiles.push(tile);
-container.appendChild(tile);
+    tiles.push(tile);
+    container.appendChild(tile);
   }
+    // ensure tiles are sized correctly after render
+    adjustTileSizes();
+}
+
+function adjustTileSizes() {
+  if (!container) return;
+  // Use boardSize if available, otherwise fallback to sqrt(board.length)
+  const gridSize = boardSize || Math.sqrt(board.length);
+
+  // get computed gap (works for modern browsers)
+  const cs = getComputedStyle(container);
+  const gapStr = cs.getPropertyValue('gap') || cs.getPropertyValue('grid-gap') || '0px';
+  const gap = parseFloat(gapStr) || 0;
+
+  const rect = container.getBoundingClientRect();
+  const totalGap = (gridSize - 1) * gap;
+  const usableWidth = Math.max(rect.width - totalGap, 0);
+  const usableHeight = Math.max(rect.height - totalGap, 0);
+
+  // cell size (square)
+  const size = Math.floor(Math.min(usableWidth / gridSize, usableHeight / gridSize));
+
+  tiles.forEach(tile => {
+    tile.style.width = `${size}px`;
+    tile.style.height = `${size}px`;
+    tile.style.lineHeight = `${size}px`;
+    tile.style.boxSizing = 'border-box';
+  });
 }
 
 function addRandomTile() {
@@ -422,83 +505,88 @@ window.lastMergedIndices.push(actualIndex);
   }
 
   if (moved) {
+    addRandomTile();
+    render();
+    updateScore();
 
-addRandomTile();
-render();
-updateScore();
+    if (soundEnabled) {
+         mergeSound.currentTime = 0;
+         mergeSound.play();
+    }
 
-if (soundEnabled) {
- mergeSound.currentTime = 0;
- mergeSound.play();
-}
+    animateMergedTiles();
 
-animateMergedTiles();
+    if (dailyChallengeActive) {
+         dailyChallengeMovesLeft--;
+         movesCountDisplay.textContent = dailyChallengeMovesLeft;
 
-if (dailyChallengeActive) {
- dailyChallengeMovesLeft--;
- movesCountDisplay.textContent = dailyChallengeMovesLeft;
+         if (board.includes(dailyChallengeTargetTile)) {
+            showWinMessage();
+            messageText.textContent = 'Daily Challenge Completed!';
+            markDailyQuestCompleted();
+            stopDailyChallenge();
+            return;
+         }
 
- if (board.includes(dailyChallengeTargetTile)) {
-showWinMessage();
-messageText.textContent = 'Daily Challenge Completed!';
-markDailyQuestCompleted();
-stopDailyChallenge();
-return;
- }
+         if (dailyChallengeMovesLeft <= 0) {
+            showGameOverMessage();
+            messageText.textContent = 'Out of moves! Daily Challenge Failed.';
+            stopDailyChallenge();
+            return;
+         }
 
- if (dailyChallengeMovesLeft <= 0) {
-showGameOverMessage();
-messageText.textContent = 'Out of moves! Daily Challenge Failed.';
-stopDailyChallenge();
-return;
- }
+         // Do NOT check normal level win/gameover while in daily challenge
+        } else {
+             if (board.includes(targetTile)) {
+                if (soundEnabled) {
+                     levelupSound.currentTime = 0;
+                     levelupSound.play();
+                }
 
- // Do NOT check normal level win/gameover while in daily challenge
-} else {
- if (board.includes(targetTile)) {
-if (soundEnabled) {
- levelupSound.currentTime = 0;
- levelupSound.play();
-}
+                currentLevel++;
+                levelNumDisplay.textContent = currentLevel;
 
-currentLevel++;
-levelNumDisplay.textContent = currentLevel;
+                targetTile *= 2;
+                targetTileDisplay.textContent = targetTile;
 
-targetTile *= 2;
-targetTileDisplay.textContent = targetTile;
+                removeLowestTiles();
 
-removeLowestTiles();
+                gameOver = false;
 
-gameOver = false;
+                powerups = {
+                 undo: 1,
+                 shuffle: 2,
+                 mergeAny: 1,
+                 bigTile: 1,
+                 clearSmall: 1
+                };
+                updatePowerupLocks();
+                updatePowerupBadges();
 
-powerups = {
- undo: 1,
- shuffle: 2,
- mergeAny: 1,
- bigTile: 1,
- clearSmall: 1
-};
-updatePowerupLocks();
-updatePowerupBadges();
+                updateScore();
+                render();
 
-updateScore();
-render();
+                persistLevelState();
 
-return;
- }
+                return;
+             }
 
- if (!boardChangedByPowerup) {
-if (!canMove()) {
- showGameOverMessage();
- if (soundEnabled) {
-gameoverSound.currentTime = 0;
-gameoverSound.play();
- }
-}
- }
+             if (!boardChangedByPowerup) {
+               if (!canMove()) {
+                   showGameOverMessage();  // shows 'Game Over!' popup
+                   if (soundEnabled) {
+                       gameoverSound.currentTime = 0;
+                       gameoverSound.play();
+                   }
+
+                   // Instead of auto-restarting, show the restart button
+                   restartLevelBtn.style.display = 'inline-block'; // make the button visible
+               }
+             }
 }
 
 boardChangedByPowerup = false;
+persistLevelState();
   }
 }
 
@@ -529,25 +617,13 @@ function animateMergedTiles() {
   if (!window.lastMergedIndices || window.lastMergedIndices.length === 0) return;
 
   window.lastMergedIndices.forEach(i => {
-const tile = tiles[i];
-if (!tile) return;
+    const tile = tiles[i];
+    if (!tile) return;
 
-// Add pop animation to tile
-tile.classList.add('merge-pop');
+    tile.classList.add('merge-pop');
+    createFirework(tile);
 
-// Firework effect centered on tile
-const rect = tile.getBoundingClientRect();
-const containerRect = container.getBoundingClientRect();
-
-const x = rect.left + rect.width / 2 - containerRect.left;
-const y = rect.top + rect.height / 2 - containerRect.top;
-
-createFireworkAt(x, y);
-
-// Remove animation class after animation ends (300ms here)
-tile.addEventListener('animationend', () => {
- tile.classList.remove('merge-pop');
-}, { once: true });
+    setTimeout(() => tile.classList.remove('merge-pop'), 800);
   });
 
   window.lastMergedIndices = [];
@@ -588,6 +664,7 @@ updateScore();
 render();
 powerups.undo--;
 updatePowerupBadges();
+persistLevelState();
 showToast("Undo used");
   }
 }
@@ -606,53 +683,56 @@ for (let i = 0; i < board.length; i++) {
 render();
 powerups.shuffle--;
 updatePowerupBadges();
+persistLevelState();
 showToast("Board shuffled!");
   }
 }
 
 function addBigTile() {
-  if (powerups.bigTile > 0) {
-boardChangedByPowerup = true;
-const emptyIndices = board.map((v, i) => v === 0 ? i : -1).filter(i => i !== -1);
-if (emptyIndices.length === 0) {
- showToast("No empty spots!");
- return;
-}
-const bigValue = Math.random() < 0.5 ? 64 : 128;
-const idx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-board[idx] = bigValue;
-render();
-powerups.bigTile--;
-updatePowerupBadges();
-showToast(`Big tile ${bigValue} added!`);
-if (soundEnabled) {
- mergeSound.currentTime = 0;
- mergeSound.play();
-}
-  }
+      if (powerups.bigTile > 0) {
+            boardChangedByPowerup = true;
+            const emptyIndices = board.map((v, i) => v === 0 ? i : -1).filter(i => i !== -1);
+            if (emptyIndices.length === 0) {
+                 showToast("No empty spots!");
+                 return;
+            }
+            const bigValue = Math.random() < 0.5 ? 64 : 128;
+            const idx = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+            board[idx] = bigValue;
+            render();
+            powerups.bigTile--;
+            updatePowerupBadges();
+            persistLevelState();
+            showToast(`Big tile ${bigValue} added!`);
+            if (soundEnabled) {
+                 mergeSound.currentTime = 0;
+                 mergeSound.play();
+            }
+      }
 }
 
 function clearSmallTiles() {
-  if (powerups.clearSmall > 0) {
-boardChangedByPowerup = true;
-const nonZero = board.filter(v => v !== 0);
-if (nonZero.length === 0) {
- showToast("No tiles to clear!");
- return;
-}
-const minTile = Math.min(...nonZero);
-for (let i = 0; i < board.length; i++) {
- if (board[i] === minTile) board[i] = 0;
-}
-render();
-powerups.clearSmall--;
-updatePowerupBadges();
-showToast("Smallest tiles cleared!");
-if (soundEnabled) {
- mergeSound.currentTime = 0;
- mergeSound.play();
-}
-  }
+      if (powerups.clearSmall > 0) {
+            boardChangedByPowerup = true;
+            const nonZero = board.filter(v => v !== 0);
+            if (nonZero.length === 0) {
+             showToast("No tiles to clear!");
+             return;
+            }
+            const minTile = Math.min(...nonZero);
+            for (let i = 0; i < board.length; i++) {
+             if (board[i] === minTile) board[i] = 0;
+            }
+            render();
+            powerups.clearSmall--;
+            updatePowerupBadges();
+            persistLevelState();
+            showToast("Smallest tiles cleared!");
+            if (soundEnabled) {
+             mergeSound.currentTime = 0;
+             mergeSound.play();
+            }
+      }
 }
 
 // ==== Merge Any Two Tiles ====
@@ -727,8 +807,8 @@ handlePowerupClick('shuffle-btn', () => {
 
 handlePowerupClick('merge-any-btn', () => {
   if (powerups.mergeAny > 0) {
-mergeAnyActive = true;
-showToast("Select two tiles with the same value to merge");
+    mergeAnyActive = true;
+    showToast("Select two tiles with the same value to merge");
   }
 });
 
@@ -874,41 +954,7 @@ clearSmall: 1
   render();
 });
 
-restartLevelBtn.addEventListener('click', () => {
-  // Restart current level without resetting currentLevel or targetTile
-
-  // Calculate board size for current level (same logic as jumpToLevel)
-  boardSize = BOARD_SIZE;
-  board = new Array(boardSize * boardSize).fill(0);
-
-  // Reset powerups for the current level
-  powerups = {
-undo: 1,
-shuffle: 2,
-mergeAny: 1,
-bigTile: 1,
-clearSmall: 1
-  };
-
-  updatePowerupBadges();
-  updatePowerupLocks();
-
-  score = 0;
-  updateScore();
-
-  addRandomTile();
-  addRandomTile();
-  render();
-
-  message.style.display = 'none';
-
-  if (soundEnabled) {
-levelupSound.currentTime = 0;
-levelupSound.play();
-  }
-
-  showToast(`Level ${currentLevel} restarted`);
-});
+restartLevelBtn.addEventListener('click', restartLevel);
 
 // ==== Theme, Dark Mode & Sound in Settings Modal ====
 
@@ -1101,6 +1147,7 @@ function initGame() {
 }
 
 initGame();
+window.addEventListener('resize', adjustTileSizes);
 
 // ==== Daily Challenge Functions ====
 function getMovesForTarget(targetTile) {
@@ -1237,6 +1284,41 @@ function stopDailyChallenge() {
 
   // Reset board for normal play
   restartBtn.click();
+}
+
+function restartLevel() {
+  // Restart current level without resetting currentLevel or targetTile
+  boardSize = BOARD_SIZE;
+  board = new Array(boardSize * boardSize).fill(0);
+
+  // Reset powerups for the current level
+  powerups = {
+    undo: 1,
+    shuffle: 2,
+    mergeAny: 1,
+    bigTile: 1,
+    clearSmall: 1
+  };
+
+  updatePowerupBadges();
+  updatePowerupLocks();
+
+  score = 0;
+  updateScore();
+
+  addRandomTile();
+  addRandomTile();
+  render();
+
+  message.style.display = 'none';
+
+  if (soundEnabled) {
+    levelupSound.currentTime = 0;
+    levelupSound.play();
+  }
+
+  showToast(`Level ${currentLevel} restarted`);
+  persistLevelState();
 }
 
 // ==== Daily Challenge Button ====

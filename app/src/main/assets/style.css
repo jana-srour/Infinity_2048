@@ -286,47 +286,41 @@ select:hover, button:hover {
 }
 
 #game-container {
-  background: var(--game-bg);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow:
-	0 8px 20px rgba(0, 0, 0, 0.4),
-	inset 0 0 40px rgba(0,0,0,0.5);
-  width: 70vw;
-  max-width: 320px;
-  height: 70vw;
-  max-height: 320px;
-  gap: 3%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  grid-gap: 15px;
-  position: relative;
-  touch-action: none;
-  outline: none;
-  user-select: none;
-  transition: background 0.5s ease;
-  color: var(--text-color);
-  margin-bottom: 70px;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: repeat(4, 1fr);    /* 4 rows */
+  gap: 6px;               /* small gap between tiles */
+  padding: 6px;           /* small space from the board edges */
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  width: min(90vmin, 400px);
+  height: min(90vmin, 400px);
+  background: var(--game-bg);
+  border-radius: 10px;
+  box-sizing: border-box;
+  overflow: hidden;       /* keeps tiles inside */
+  position: relative;     /* required for fireworks/particles */
 }
 
 .tile {
-  border-radius: 15px;
+  border-radius: 12px;
   font-weight: 900;
-  font-size: calc(1.5rem + 0.5vw);
+  font-size: calc(1.5rem + 1.2vw);
   color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: var(--tile-shadow);
-  transition:
-	background-color 0.3s ease,
-	color 0.3s ease,
-	transform 0.3s ease;
+  transition:all 0.15s ease-in-out;
   transform-origin: center;
   user-select: none;
   position: relative;
   z-index: 1;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: visible;
 }
 
 /* Tile colors from CSS variables */
@@ -457,15 +451,6 @@ body.dark {
   padding: 2px 6px;
   pointer-events: none;
   user-select: none;
-}
-
-/* Particle container */
-#particles-container {
-  position: absolute;
-  pointer-events: none;
-  top: 0; left: 0; width: 100%; height: 100%;
-  overflow: visible;
-  z-index: 20;
 }
 
 #toast {
@@ -749,22 +734,54 @@ body.theme-classic.dark-mode #settings-toggles button:hover {
 
 #particles-container {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Don't block clicks */
   overflow: visible;
-  z-index: 1000;
+}
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.particle {
+/* Firework container */
+.firework {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Each particle */
+.firework div {
   position: absolute;
   width: 6px;
   height: 6px;
+  background: linear-gradient(45deg, #ff5f6d, #ffc371); /* gradient for nice color */
   border-radius: 50%;
-  opacity: 1;
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-  filter: drop-shadow(0 0 3px gold);
+  animation: fireworkParticle 0.8s ease-out forwards;
 }
+
+/* Particle animation */
+@keyframes fireworkParticle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) scale(0.5);
+    opacity: 0;
+  }
+}
+
 
 #ad-banner {
   position: fixed;      /* sticky at bottom */
