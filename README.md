@@ -1,5 +1,4 @@
-﻿Set-Content -Path "README.md" -Value @"
-# Infinity 2048
+﻿# Infinity 2048
 
 **Infinity 2048** is a modern puzzle game inspired by the classic 2048 concept. Combine matching numbers, build increasingly powerful tiles, and challenge yourself to reach 2048 and beyond.
 
@@ -31,7 +30,9 @@ Can you reach **2048**?
 
 ## Google Play
 
-Infinity 2048 is officially published on **Google Play** by **Novera Labs**.
+**Infinity 2048** is officially published on Google Play by **Novera Labs**.
+
+[Download Infinity 2048 on Google Play](https://play.google.com/store/apps/details?id=com.infinity2048.infinity_2048)
 
 ## Copyright
 
@@ -45,4 +46,3 @@ Unauthorized copying, redistribution, modification, or commercial use of the ori
 
 **Novera Labs**  
 © 2026 Novera Labs. All rights reserved.
-"@
