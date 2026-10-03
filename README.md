@@ -1,60 +1,48 @@
-﻿# Infinity 2048
+﻿Set-Content -Path "README.md" -Value @"
+# Infinity 2048
 
-**Infinity 2048** is a modern Android puzzle game inspired by the classic 2048 gameplay.
+**Infinity 2048** is a modern puzzle game inspired by the classic 2048 concept. Combine matching numbers, build increasingly powerful tiles, and challenge yourself to reach 2048 and beyond.
 
 Developed and published by **Novera Labs**.
 
 ## Features
 
-- Classic 2048-style tile merging gameplay
-- Simple and intuitive controls
-- Smooth Android experience
-- Challenge yourself to reach 2048 and beyond
+- Classic number-merging gameplay
+- Smooth and responsive controls
+- Clean, modern interface
+- Designed for Android devices
+- Endless gameplay with no fixed limit
 - Available on Google Play
 
 ## How to Play
 
-Swipe the tiles in any direction to move them.
+Swipe in any direction to move the tiles.
 
 When two tiles with the same number touch, they merge into one tile with their combined value.
 
-Keep combining tiles, plan your moves carefully, and try to reach **2048** — or go beyond it!
+Keep merging tiles, plan your moves carefully, and see how far you can go.
 
-## Technology
+Can you reach **2048**?
 
-- **Engine:** Unity
-- **Platform:** Android
-- **Target SDK:** Android 16 / API 36
+## Platform
 
-## Project Structure
-
-- Assets/ — Game assets, scripts, scenes, and resources
-- Packages/ — Unity package configuration
-- ProjectSettings/ — Unity project settings
-
-Generated Unity folders such as Library/, Temp/, and Obj/ are excluded from version control.
-
-## Building
-
-1. Open the project in Unity.
-2. Open the Android Build Settings.
-3. Ensure the Android SDK configuration is available.
-4. Select the desired build configuration.
-5. Build the APK or Android App Bundle.
+- **Android**
+- **Target SDK:** Android 16 (API 36)
 
 ## Google Play
 
-Infinity 2048 is published on **Google Play** by Novera Labs.
+Infinity 2048 is officially published on **Google Play** by **Novera Labs**.
 
 ## Copyright
 
 Copyright © 2026 **Novera Labs**. All rights reserved.
 
-The source code, artwork, graphics, audio, branding, and other original assets contained in this project are the property of Novera Labs unless otherwise stated.
+The source code, artwork, graphics, audio, branding, and other original materials contained in this project are the property of Novera Labs unless otherwise stated.
 
-Unauthorized copying, redistribution, modification, or commercial use of the original project and its assets is prohibited.
+Unauthorized copying, redistribution, modification, or commercial use of the original project or its assets is prohibited.
 
 ---
 
 **Novera Labs**  
 © 2026 Novera Labs. All rights reserved.
+"@
